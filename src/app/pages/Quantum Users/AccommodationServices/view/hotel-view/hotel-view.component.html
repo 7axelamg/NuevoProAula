@@ -1,0 +1,389 @@
+<app-header-app></app-header-app>
+
+<div class="min-h-screen bg-gradient-to-b from-white to-[#f8fcf9]">
+  <!-- Main Hotel Container -->
+  <div class="max-w-7xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden my-8 border border-gray-100">
+    <!-- Cover Image with Gradient Overlay -->
+    <div class="relative h-80 bg-gradient-to-r from-[#428764] to-[#306B4F]">
+      <img [src]="hotel?.image || 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'" alt="Hotel Cover" class="w-full h-full object-cover opacity-90" loading="lazy"
+        width="1024" height="320" (error)="handleImageError($event)" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+    </div>
+
+    <!-- Profile and Main Content -->
+    <div class="px-6 pt-20 pb-8 relative">
+      <!-- Profile Image -->
+      <div class="absolute -top-16 left-1/2 transform -translate-x-1/2">
+        <div class="relative group">
+          <div
+            class="absolute inset-0 rounded-full bg-gradient-to-r from-[#428764] to-[#306B4F] blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300">
+          </div>
+          <img [src]="hotel?.image || 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'" alt="Hotel Logo"
+            class="relative w-32 h-32 rounded-full border-4 border-white object-cover shadow-xl z-10" loading="lazy"
+            width="128" height="128" (error)="handleImageError($event)" />
+        </div>
+      </div>
+
+      <!-- Hotel Name and Description -->
+      <div class="text-center mt-8">
+        <div
+          class="inline-flex items-center bg-[#f0f8f4] text-[#306B4F] px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
+            </path>
+          </svg>
+          {{ hotel?.type_accomodation }}
+        </div>
+        <h1
+          class="text-4xl font-bold text-gray-800 bg-gradient-to-r from-[#428764] to-[#306B4F] bg-clip-text text-transparent">
+          {{ hotel?.name }}
+        </h1>
+        <div class="flex justify-center items-center mt-2">
+          <div class="flex items-center">
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+            </svg>
+            <span class="ml-1 font-medium text-gray-700">{{ hotel?.rating }}</span>
+          </div>
+        </div>
+        <p class="mt-4 text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          {{ hotel?.description }}
+        </p>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="mt-8 bg-gradient-to-br from-[#f0f8f4] to-white rounded-2xl p-6 border border-[#e0f0e8] shadow-sm">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div
+            class="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-[#428764] transition-all hover:shadow-md group">
+            <div
+              class="p-3 bg-[#e0f0e8] rounded-xl text-[#306B4F] group-hover:bg-[#306B4F] group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-medium text-gray-500">Dirección</h4>
+              <span class="text-gray-700 font-medium">{{
+                hotel?.address
+                }}</span>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-[#428764] transition-all hover:shadow-md group">
+            <div
+              class="p-3 bg-[#e0f0e8] rounded-xl text-[#306B4F] group-hover:bg-[#306B4F] group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-medium text-gray-500">Teléfono</h4>
+              <span class="text-gray-700 font-medium">{{
+                hotel?.phone
+                }}</span>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-[#428764] transition-all hover:shadow-md group">
+            <div
+              class="p-3 bg-[#e0f0e8] rounded-xl text-[#306B4F] group-hover:bg-[#306B4F] group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sm font-medium text-gray-500">Email</h4>
+              <span class="text-gray-700 font-medium">{{
+                hotel?.email
+                }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rooms Section -->
+      <div class="mt-12">
+        <h2 class="text-3xl font-bold text-gray-800 flex items-center gap-3 mb-8">
+          <div class="p-3 bg-[#e0f0e8] rounded-xl text-[#306B4F]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 4v16" />
+              <path d="M2 8h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2" />
+              <path d="M2 12h18a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H2" />
+              <circle cx="6" cy="16" r="2" />
+            </svg>
+          </div>
+          Nuestras Habitaciones
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div *ngFor="let room of rooms"
+            class="border border-[#e0f0e8] rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+            <div class="relative overflow-hidden h-60">
+              <img 
+                [src]="room?.image || 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80'" 
+                [alt]="room?.name || 'Habitación'" 
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy" 
+                width="400" 
+                height="300"
+                (error)="handleImageError($event)" />
+
+              <div
+                class="absolute bottom-4 right-4 bg-gradient-to-r from-[#428764] to-[#306B4F] text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg">
+                {{ formatPrice(room.price) }} / noche
+              </div>
+
+              <div class="absolute top-4 right-4 px-3 py-1 rounded-lg text-xs font-bold shadow-lg" [ngClass]="getStatusClass(room.status)">
+                {{ getStatusText(room.status) }}
+              </div>
+            </div>
+
+            <div class="p-6 bg-white">
+              <div class="flex justify-between items-start">
+                <h3 class="text-xl font-bold text-gray-800">{{ room.name }}</h3>
+              </div>
+
+              <p class="text-gray-600 mt-2 text-sm leading-relaxed">
+                {{ room.description }}
+              </p>
+
+              <div class="mt-4 pt-4 border-t border-[#e0f0e8]">
+                <h4 class="font-medium text-sm mb-3 flex items-center gap-2 text-[#306B4F]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                  Capacidad:
+                </h4>
+                <div class="flex items-center text-gray-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="mr-1.5 text-[#306B4F]">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                  <span>{{ room.ability }}</span>
+                </div>
+              </div>
+
+              <!-- Reserve Button -->
+              <button (click)="reserveRoom(room.id)"
+                class="mt-6 w-full bg-gradient-to-r from-[#428764] to-[#306B4F] text-white py-4 px-6 rounded-xl hover:opacity-90 transition-all hover:-translate-y-1 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group cursor-pointer"
+                [disabled]="room.status !== 'free'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                {{ room.status === "free" ? "Reservar" : "No disponible" }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer-app></app-footer-app>
+
+<!-- Modal de Confirmación -->
+<div *ngIf="confirmationModalState !== 'closed'" class="fixed inset-0 flex items-center justify-center z-50">
+  <div 
+    class="absolute inset-0 bg-white/60 backdrop-blur-md transition-opacity duration-300 ease-in-out"
+    [class.opacity-0]="confirmationModalState === 'closing' || confirmationModalState === 'opening'"
+    [class.opacity-100]="confirmationModalState === 'open'"
+    (click)="cancelReservation()">
+  </div>
+  
+  <div 
+    class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 relative z-10 overflow-hidden transform transition-all duration-300 ease-in-out"
+    [class.opacity-0]="confirmationModalState === 'closing' || confirmationModalState === 'opening'"
+    [class.opacity-100]="confirmationModalState === 'open'"
+    [class.scale-90]="confirmationModalState === 'closing' || confirmationModalState === 'opening'"
+    [class.scale-100]="confirmationModalState === 'open'"
+    [class.translate-y-4]="confirmationModalState === 'opening'"
+    [class.translate-y-0]="confirmationModalState === 'open'"
+    [class.-translate-y-4]="confirmationModalState === 'closing'">
+    <h3 class="text-2xl font-bold text-gray-800 mb-4">Confirmar Reserva</h3>
+    <p class="text-gray-600 mb-6">¿Estás seguro que deseas reservar esta habitación?</p>
+    
+    <div class="space-y-4">
+      <div class="flex justify-between items-center">
+        <span class="text-gray-600">Check-in:</span>
+        <span class="font-medium">{{ checkInDate }}</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-gray-600">Check-out:</span>
+        <span class="font-medium">{{ checkOutDate }}</span>
+      </div>
+    </div>
+
+    <div class="mt-8 flex gap-4">
+      <button (click)="cancelReservation()" class="flex-1 px-6 py-3 border border-gray-300 rounded-xl text-gray-600 hover:bg-gray-50 transition-colors">
+        Cancelar
+      </button>
+      <button (click)="confirmReservation()" class="flex-1 px-6 py-3 bg-gradient-to-r from-[#428764] to-[#306B4F] text-white rounded-xl hover:opacity-90 transition-opacity">
+        Confirmar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Pago -->
+<div *ngIf="paymentModalState !== 'closed'" class="fixed inset-0 flex items-center justify-center z-50">
+  <div 
+    class="absolute inset-0 bg-white/60 backdrop-blur-md transition-opacity duration-300 ease-in-out"
+    [class.opacity-0]="paymentModalState === 'closing' || paymentModalState === 'opening'"
+    [class.opacity-100]="paymentModalState === 'open'"
+    (click)="!isProcessingPayment && cancelPayment()">
+  </div>
+  
+  <div 
+    class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 relative z-10 overflow-hidden transform transition-all duration-300 ease-in-out"
+    [class.opacity-0]="paymentModalState === 'closing' || paymentModalState === 'opening'"
+    [class.opacity-100]="paymentModalState === 'open'"
+    [class.scale-90]="paymentModalState === 'closing' || paymentModalState === 'opening'"
+    [class.scale-100]="paymentModalState === 'open'"
+    [class.translate-y-4]="paymentModalState === 'opening'"
+    [class.translate-y-0]="paymentModalState === 'open'"
+    [class.-translate-y-4]="paymentModalState === 'closing'">
+    <h3 class="text-2xl font-bold text-gray-800 mb-4">Información de Pago</h3>
+    
+    <form class="space-y-4" [class.opacity-50]="isProcessingPayment" [class.pointer-events-none]="isProcessingPayment">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Método de Pago</label>
+        <select [(ngModel)]="paymentMethod" name="paymentMethod" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#428764] focus:border-transparent">
+          <option value="credit">Tarjeta de Crédito</option>
+          <option value="debit">Tarjeta de Débito</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Número de Tarjeta</label>
+        <input [(ngModel)]="cardNumber" name="cardNumber" type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#428764] focus:border-transparent">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre en la Tarjeta</label>
+        <input [(ngModel)]="cardName" name="cardName" type="text" placeholder="Juan Pérez" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#428764] focus:border-transparent">
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de Expiración</label>
+          <input [(ngModel)]="cardExpiry" name="cardExpiry" type="text" placeholder="MM/AA" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#428764] focus:border-transparent">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+          <input [(ngModel)]="cardCvv" name="cardCvv" type="text" placeholder="123" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#428764] focus:border-transparent">
+        </div>
+      </div>
+    </form>
+
+    <!-- Loading Overlay -->
+    <div *ngIf="isProcessingPayment" class="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center">
+      <div class="text-center">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#428764] border-t-transparent mb-4"></div>
+        <p class="text-[#428764] font-medium mb-4">Procesando pago...</p>
+        <button 
+          (click)="cancelPayment()" 
+          class="flex-1 px-6 py-3 border border-gray-300 rounded-xl text-gray-600 hover:bg-gray-50 transition-colors">
+          Cancelar pago
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-8 flex gap-4">
+      <button 
+        (click)="cancelPayment()" 
+        class="flex-1 px-6 py-3 border border-gray-300 rounded-xl text-gray-600 hover:bg-gray-50 transition-colors"
+        [disabled]="isProcessingPayment">
+        Cancelar
+      </button>
+      <button 
+        (click)="processPayment()" 
+        class="flex-1 px-6 py-3 bg-gradient-to-r from-[#428764] to-[#306B4F] text-white rounded-xl hover:opacity-90 transition-opacity"
+        [disabled]="isProcessingPayment">
+        {{ isProcessingPayment ? 'Procesando...' : 'Pagar' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Éxito de Pago -->
+<div *ngIf="successModalState !== 'closed'" class="fixed inset-0 flex items-center justify-center z-50">
+  <div 
+    class="absolute inset-0 bg-white/60 backdrop-blur-md transition-opacity duration-300 ease-in-out"
+    [class.opacity-0]="successModalState === 'closing' || successModalState === 'opening'"
+    [class.opacity-100]="successModalState === 'open'"
+    (click)="closePaymentSuccess()">
+  </div>
+  
+  <div 
+    class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 relative z-10 overflow-hidden transform transition-all duration-300 ease-in-out"
+    [class.opacity-0]="successModalState === 'closing' || successModalState === 'opening'"
+    [class.opacity-100]="successModalState === 'open'"
+    [class.scale-90]="successModalState === 'closing' || successModalState === 'opening'"
+    [class.scale-100]="successModalState === 'open'"
+    [class.translate-y-4]="successModalState === 'opening'"
+    [class.translate-y-0]="successModalState === 'open'"
+    [class.-translate-y-4]="successModalState === 'closing'">
+    <div class="text-center">
+      <div class="flex justify-center mb-4">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#428764]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+      </div>
+      
+      <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Pago Realizado con Éxito!</h3>
+      <p class="text-gray-600 mb-6">Tu reserva ha sido confirmada y el pago procesado correctamente.</p>
+      
+      <div class="bg-gray-50 rounded-xl p-4 mb-6">
+        <div class="space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Número de Reserva:</span>
+            <span class="font-medium">#{{ reservationNumber }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Check-in:</span>
+            <span class="font-medium">{{ checkInDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Check-out:</span>
+            <span class="font-medium">{{ checkOutDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600">Total Pagado:</span>
+            <span class="font-medium text-[#428764]">{{ formatPrice(totalAmount) }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <p class="text-sm text-gray-500 mb-6">
+        Hemos enviado un correo electrónico con los detalles de tu reserva.
+      </p>
+    </div>
+
+    <div class="mt-4">
+      <button (click)="closePaymentSuccess()" class="w-full px-6 py-3 bg-gradient-to-r from-[#428764] to-[#306B4F] text-white rounded-xl hover:opacity-90 transition-opacity">
+        Continuar
+      </button>
+    </div>
+  </div>
+</div>

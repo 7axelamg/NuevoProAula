@@ -1,0 +1,4 @@
+/* En tu archivo de estilos global */
+button, a {
+  cursor: pointer !important;
+}

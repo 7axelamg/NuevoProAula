@@ -1,0 +1,491 @@
+<app-layout>
+  <div class="main-container flex">
+    <div class="ml-16 flex-1">
+      <!-- Contenido principal -->
+      <main class="p-6 bg-gray-50 min-h-screen">
+        <!-- Encabezado mejorado -->
+        <div class="mb-6 flex justify-between items-start">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-800">
+              Gestión de Habitaciones
+            </h1>
+            <p class="text-gray-600">Administra las habitaciones del hotel</p>
+          </div>
+          <button
+            class="bg-[#011147] hover:bg-[#0a2a8f] text-white px-4 py-2 rounded-lg flex items-center text-sm shadow-md transition-all duration-200 transform hover:scale-105"
+            (click)="openModal()">
+            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clip-rule="evenodd"></path>
+            </svg>
+            Nueva Habitación
+          </button>
+        </div>
+
+        <!-- Panel de estadísticas simplificado -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <!-- Total habitaciones -->
+          <div class="bg-white p-4 rounded-lg shadow border border-gray-200 flex items-center">
+            <div class="p-3 rounded-lg bg-[#011147]/10 text-[#011147] mr-4">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z">
+                </path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Habitaciones totales</p>
+              <p class="text-xl font-semibold">{{ totalRooms }}</p>
+            </div>
+          </div>
+
+          <!-- Habitaciones disponibles -->
+          <div class="bg-white p-4 rounded-lg shadow border border-gray-200 flex items-center">
+            <div class="p-3 rounded-lg bg-green-100 text-green-600 mr-4">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Disponibles</p>
+              <p class="text-xl font-semibold">{{ freeRooms }}</p>
+            </div>
+          </div>
+
+          <!-- Habitaciones ocupadas -->
+          <div class="bg-white p-4 rounded-lg shadow border border-gray-200 flex items-center">
+            <div class="p-3 rounded-lg bg-red-100 text-red-600 mr-4">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Ocupadas</p>
+              <p class="text-xl font-semibold">{{ busyRooms }}</p>
+            </div>
+          </div>
+
+          <!-- Habitaciones reservadas -->
+          <div class="bg-white p-4 rounded-lg shadow border border-gray-200 flex items-center">
+            <div class="p-3 rounded-lg bg-yellow-100 text-yellow-600 mr-4">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Reservadas</p>
+              <p class="text-xl font-semibold">{{ bookedRooms }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filtros mejorados -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+          <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0">
+            <div class="relative flex-1">
+              <input type="text"
+                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#011147] focus:border-[#011147]"
+                placeholder="Buscar habitaciones..." (input)="onSearch($event)" />
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-3 sm:space-y-0 w-full md:w-auto">
+              <select
+                class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#011147] focus:border-[#011147] text-sm"
+                (change)="onFilterByStatus($event)">
+                <option value="">Todos los estados</option>
+                <option value="free">Disponible</option>
+                <option value="busy">Ocupada</option>
+                <option value="booked">Reservada</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de habitaciones mejorada -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-8">
+          <div class="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <h2 class="font-semibold text-gray-800 mb-2 sm:mb-0">
+              Listado de Habitaciones
+            </h2>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Nombre
+                  </th>
+                  <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Descripción
+                  </th>
+                  <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Estado
+                  </th>
+                  <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Precio
+                  </th>
+                  <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Capacidad
+                  </th>
+                  <th scope="col"
+                    class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let room of filteredRooms | slice: (currentPage-1) * pageSize : (currentPage) * pageSize"
+                  class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {{ room.name }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {{
+                    room.description.length > 40
+                    ? (room.description | slice : 0 : 50) + "..."
+                    : room.description
+                    }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span [ngClass]="{
+                        'bg-green-100 text-green-800': room.status === 'free',
+                        'bg-red-100 text-red-800': room.status === 'busy',
+                        'bg-yellow-100 text-yellow-800':
+                          room.status === 'booked'
+                      }" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+                      {{ room.status }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    ${{ room.price }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
+                    {{ room.ability }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <div class="flex justify-end space-x-2">
+
+                      <button (click)="openEditModal(room.id)"
+                        class="bg-[#011147] hover:bg-[#0a2a8f] text-white px-2 py-1 rounded-md flex items-center text-xs shadow-sm transition-all duration-200 hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                          stroke="currentColor" class="size-4 mr-1">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                        </svg>
+                        Edit
+                      </button>
+
+                      <button (click)="showDeatils(room.id)"
+                        class="bg-gray-600 hover:bg-gray-700 text-white px-2 py-1 rounded-md flex items-center text-xs shadow-sm transition-all duration-200 hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                          class="size-3.5 mr-1">
+                          <path
+                            d="M9 6a.75.75 0 0 1 .75.75v1.5h1.5a.75.75 0 0 1 0 1.5h-1.5v1.5a.75.75 0 0 1-1.5 0v-1.5h-1.5a.75.75 0 0 1 0-1.5h1.5v-1.5A.75.75 0 0 1 9 6Z" />
+                          <path fill-rule="evenodd"
+                            d="M2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Zm7-5.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
+                            clip-rule="evenodd" />
+                        </svg>
+                        Details
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginación mejorada -->
+          <div class="px-6 py-3 bg-gray-50 border-t border-gray-200">
+            <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [pageSize]="pageSize"
+              [totalItems]="Rooms.length" (pageChange)="onPageChange($event)">
+            </app-pagination>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal para crear una nueva habitación -->
+  <div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-0">
+    <!-- Fondo transparente con blur -->
+    <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" (click)="closeModal()"></div>
+
+    <!-- Contenido del modal -->
+    <div
+      class="bg-white rounded-lg shadow-xl w-full max-w-[95%] sm:max-w-md max-h-[90vh] overflow-auto z-10 animate-in fade-in-50 zoom-in-95 duration-200">
+      <!-- Encabezado con gradiente -->
+      <div class="relative bg-gradient-to-r from-[#011147] to-[#0a2a8f] text-white p-3 sm:p-4 rounded-t-lg">
+        <button type="button" class="absolute right-2 top-2 text-white hover:bg-white/20 p-1.5 rounded-full"
+          (click)="closeModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+          <span class="sr-only">Cerrar</span>
+        </button>
+        <h2 class="text-lg sm:text-xl font-semibold pr-6">Crear Nueva Habitación</h2>
+      </div>
+
+      <!-- Cuerpo del formulario -->
+      <div class="p-4 sm:p-6">
+        <form (ngSubmit)="createRoom()" enctype="multipart/form-data" class="space-y-4">
+          <div class="space-y-1.5 sm:space-y-2">
+            <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
+            <input id="name" type="text" [(ngModel)]="newRoom.name" name="name"
+              class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#011147] focus:border-[#011147] text-sm"
+              required />
+          </div>
+
+          <div class="space-y-1.5 sm:space-y-2">
+            <label for="description" class="block text-sm font-medium text-gray-700">Descripción</label>
+            <textarea id="description" [(ngModel)]="newRoom.description" name="description"
+              class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#011147] focus:border-[#011147] text-sm min-h-[80px] sm:min-h-[100px]"
+              required></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4">
+            <div class="space-y-1.5 sm:space-y-2">
+              <label for="price" class="block text-sm font-medium text-gray-700">Precio</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                <input id="price" type="number" [(ngModel)]="newRoom.price" name="price"
+                  class="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 focus:ring-2 focus:ring-[#011147] focus:border-[#011147] text-sm"
+                  required />
+              </div>
+            </div>
+
+            <div class="space-y-1.5 sm:space-y-2">
+              <label for="ability" class="block text-sm font-medium text-gray-700">Capacidad</label>
+              <input id="ability" type="number" [(ngModel)]="newRoom.ability" name="ability"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#011147] focus:border-[#011147] text-sm"
+                required />
+            </div>
+          </div>
+
+          <div class="space-y-1.5 sm:space-y-2">
+            <label for="image" class="block text-sm font-medium text-gray-700">Imagen</label>
+            <div
+              class="border border-gray-300 rounded-md p-2 focus-within:ring-2 focus-within:ring-[#011147] focus-within:border-[#011147]">
+              <input id="image" type="file" (change)="onFileSelected($event)"
+                class="w-full text-xs sm:text-sm text-gray-500 file:mr-2 sm:file:mr-4 file:py-1.5 sm:file:py-2 file:px-3 sm:file:px-4 file:rounded-md file:border-0 file:text-xs sm:file:text-sm file:font-medium file:bg-[#011147]/10 file:text-[#011147] hover:file:bg-[#011147]/20" />
+            </div>
+          </div>
+
+          <!-- Pie del modal con botones -->
+          <div
+            class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 space-y-2 space-y-reverse sm:space-y-0 pt-4 border-t border-gray-100 mt-4 sm:mt-6">
+            <button type="button"
+              class="w-full sm:w-auto px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+              (click)="closeModal()">
+              Cancelar
+            </button>
+            <button type="submit"
+              class="w-full sm:w-auto px-4 py-2.5 bg-gradient-to-r from-[#011147] to-[#0a2a8f] text-white rounded-lg hover:from-[#0a2a8f] hover:to-[#011147] transition-colors text-sm font-medium">
+              Crear
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para mostrar los detalles de la habitación -->
+  <div *ngIf="isModalDetailsOpen" class="fixed inset-0 z-50 flex items-center justify-center">
+    <!-- Fondo transparente con blur -->
+    <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" (click)="closeDetaislModal()"></div>
+
+    <!-- Contenido del modal -->
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md z-10 animate-in fade-in-50 zoom-in-95 duration-200">
+      <!-- Encabezado con gradiente -->
+      <div class="relative bg-gradient-to-r from-[#011147] to-[#0a2a8f] text-white p-4 rounded-t-lg">
+        <button type="button" class="absolute right-2 top-2 text-white hover:bg-white/20 p-1 rounded-full"
+          (click)="closeDetaislModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+        <h2 class="text-xl font-semibold">Detalles de la Habitación</h2>
+      </div>
+
+      <!-- Cuerpo con detalles -->
+      <div class="p-6">
+        <div *ngIf="selectedRoom" class="space-y-4">
+          <!-- Imagen de la habitación (si existe) -->
+          <div *ngIf="selectedRoom.image" class="mb-4 rounded-md overflow-hidden">
+            <img [src]="selectedRoom.image" [alt]="selectedRoom.name" class="w-full h-48 object-cover" />
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900">
+              {{ selectedRoom.name }}
+            </h3>
+            <span class="inline-block mt-1 px-2 py-1 text-xs font-medium rounded-full" [ngClass]="{
+                'bg-green-100 text-green-800': selectedRoom.status === 'free',
+                'bg-red-100 text-red-800': selectedRoom.status === 'busy',
+                'bg-amber-100 text-amber-800': selectedRoom.status === 'booked',
+                'bg-gray-100 text-gray-800': ![
+                  'free',
+                  'busy',
+                  'booked'
+                ].includes(selectedRoom.status)
+              }">
+              {{ selectedRoom.status }}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 py-3 border-y border-gray-100">
+            <div>
+              <p class="text-sm text-gray-500">Precio</p>
+              <p class="text-lg font-medium text-[#011147]">
+                ${{ selectedRoom.price }}
+              </p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Capacidad</p>
+              <p class="text-lg font-medium">
+                {{ selectedRoom.ability }}
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-500 mb-1">Descripción</p>
+            <p class="text-gray-700">{{ selectedRoom.description }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pie del modal con botones -->
+      <div class="flex justify-end p-4 bg-gray-50 rounded-b-lg">
+        <button
+          class="px-4 py-2 bg-gradient-to-r from-[#011147] to-[#0a2a8f] text-white rounded-lg hover:from-[#0a2a8f] hover:to-[#011147] transition-colors"
+          (click)="closeDetaislModal()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isEditing" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-0">
+    <!-- Fondo transparente con blur -->
+    <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" (click)="closeEditModal()"></div>
+
+    <!-- Contenido del modal -->
+    <div
+      class="bg-white rounded-lg shadow-xl w-full max-w-[95%] sm:max-w-md max-h-[90vh] overflow-auto z-10 animate-in fade-in-50 zoom-in-95 duration-200">
+      <!-- Encabezado con gradiente -->
+      <div class="relative bg-gradient-to-r from-[#011147] to-[#0a2a8f] text-white p-3 sm:p-4 rounded-t-lg">
+        <button type="button" class="absolute right-2 top-2 text-white hover:bg-white/20 p-1.5 rounded-full"
+          (click)="closeEditModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+          <span class="sr-only">Cerrar</span>
+        </button>
+        <h2 class="text-lg sm:text-xl font-semibold pr-6">Editar Habitación</h2>
+      </div>
+
+      <!-- Cuerpo del formulario -->
+      <div class="p-4 sm:p-6">
+        <form #editForm="ngForm" (ngSubmit)="editRoom()" enctype="multipart/form-data" class="space-y-4"
+          *ngIf="selectedRoom">
+          <!-- Nombre -->
+          <div class="space-y-1.5 sm:space-y-2">
+            <label for="edit-name" class="block text-sm font-medium text-gray-700">Nombre</label>
+            <input id="edit-name" type="text" [(ngModel)]="selectedRoom.name" name="name"
+              class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#011147] focus:border-[#011147] text-sm"
+              required>
+          </div>
+
+          <!-- Descripción -->
+          <div class="space-y-1.5 sm:space-y-2">
+            <label for="edit-description" class="block text-sm font-medium text-gray-700">Descripción</label>
+            <textarea id="edit-description" [(ngModel)]="selectedRoom.description" name="description"
+              class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#011147] focus:border-[#011147] text-sm min-h-[80px] sm:min-h-[100px]"
+              required></textarea>
+          </div>
+
+          <!-- Precio y Capacidad -->
+          <div class="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4">
+            <div class="space-y-1.5 sm:space-y-2">
+              <label for="edit-price" class="block text-sm font-medium text-gray-700">Precio</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                <input id="edit-price" type="number" [(ngModel)]="selectedRoom.price" name="price"
+                  class="w-full border border-gray-300 rounded-lg pl-7 pr-3 py-2 focus:ring-2 focus:ring-[#011147] focus:border-[#011147] text-sm"
+                  min="0" required>
+              </div>
+            </div>
+
+            <div class="space-y-1.5 sm:space-y-2">
+              <label for="edit-ability" class="block text-sm font-medium text-gray-700">Capacidad</label>
+              <input id="edit-ability" type="number" [(ngModel)]="selectedRoom.ability" name="ability"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#011147] focus:border-[#011147] text-sm"
+                min="1" required>
+            </div>
+          </div>
+
+          <!-- Imagen -->
+          <div class="space-y-1.5 sm:space-y-2">
+            <label for="edit-image" class="block text-sm font-medium text-gray-700">Imagen</label>
+
+            <!-- Vista previa de la imagen actual (si existe) -->
+            <div *ngIf="selectedRoom.image" class="mb-2 sm:mb-3 relative rounded-md overflow-hidden">
+              <img [src]="selectedRoom.image" alt="Imagen actual" class="w-full h-24 sm:h-32 object-cover">
+              <div
+                class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                <span class="text-white text-xs sm:text-sm">Imagen actual</span>
+              </div>
+            </div>
+
+            <div
+              class="border border-gray-300 rounded-md p-2 focus-within:ring-2 focus-within:ring-[#011147] focus-within:border-[#011147]">
+              <input id="edit-image" type="file" (change)="onFileSelected($event)"
+                class="w-full text-xs sm:text-sm text-gray-500 file:mr-2 sm:file:mr-4 file:py-1.5 sm:file:py-2 file:px-3 sm:file:px-4 file:rounded-md file:border-0 file:text-xs sm:file:text-sm file:font-medium file:bg-[#011147]/10 file:text-[#011147] hover:file:bg-[#011147]/20">
+              <p class="mt-1 text-xs text-gray-500">Deja en blanco para mantener la imagen actual</p>
+            </div>
+          </div>
+
+          <!-- Pie del modal con botones -->
+          <div
+            class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 space-y-2 space-y-reverse sm:space-y-0 pt-4 border-t border-gray-100 mt-4 sm:mt-6">
+            <button type="button"
+              class="w-full sm:w-auto px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+              (click)="closeEditModal()">
+              Cancelar
+            </button>
+            <button type="submit" [disabled]="editForm.invalid"
+              class="w-full sm:w-auto px-4 py-2.5 bg-gradient-to-r from-[#011147] to-[#0a2a8f] text-white rounded-lg hover:from-[#0a2a8f] hover:to-[#011147] transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium">
+              Guardar Cambios
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</app-layout>
