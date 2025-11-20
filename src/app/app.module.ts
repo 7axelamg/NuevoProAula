@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  provideClientHydration,
+} from '@angular/platform-browser';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { FormsModule } from '@angular/forms';
-
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,10 +52,12 @@ import { VipAdmComponent } from './pages/Quantum Web/dashboard-admin/views-admin
 import { ConfigAdmComponent } from './pages/Quantum Web/dashboard-admin/views-admin/config-adm/config-adm.component';
 import { UserRegistrationComponent } from './pages/Quantum Users/user-registration/user-registration.component';
 
-
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
-// app.module.ts
+import {
+  HttpClientModule,
+  provideHttpClient,
+  withFetch,
+} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeApplicationComponent } from './pages/Quantum Users/AccommodationServices/view/home-application/home-application.component';
 import { HeaderAppComponent } from './pages/Quantum Users/AccommodationServices/Components/header-app/header-app.component';
@@ -69,15 +73,10 @@ import { PasarelaComponent } from './shared/pasarela/pasarela.component';
 import { HabitacionesComponent } from './pages/Quantum Admin/dashboard/views/habitaciones/habitaciones.component';
 import { HotelViewComponent } from './pages/Quantum Users/AccommodationServices/view/hotel-view/hotel-view.component';
 import { GraficasAdmComponent } from './pages/Quantum Web/dashboard-admin/views-admin/graficas-adm/graficas-adm.component';
-import { AsistenteQAComponent } from './shared/Components/asistente-qa/asistente-qa.component';
-import { AsistenteQWComponent } from './shared/Components/asistente-qw/asistente-qw.component';
-import { AsistenteQuComponent } from './shared/Components/asistente-qu/asistente-qu.component';
+import { AsistenteChatbotComponent } from './shared/Components/asistente-chatbot/asistente-chatbot.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
 import { StorageService } from './service/storage.service';
-
-
-
-
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -100,7 +99,7 @@ import { StorageService } from './service/storage.service';
     PrediccionesComponent,
     PaginaWebComponent,
     UsuariosComponent,
-   
+
     PagosComponent,
     ConfiguracionComponent,
     LoginWebComponent,
@@ -135,28 +134,23 @@ import { StorageService } from './service/storage.service';
     HabitacionesComponent,
     HotelViewComponent,
     GraficasAdmComponent,
-    AsistenteQAComponent,
-    AsistenteQWComponent,
-    AsistenteQuComponent,
+    AsistenteChatbotComponent,
     PaginationComponent,
-
-
-
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    CommonModule,
   ],
   providers: [
-    provideClientHydration(withEventReplay()),
+    provideClientHydration(),
     provideHttpClient(withFetch()),
-    StorageService
+    StorageService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

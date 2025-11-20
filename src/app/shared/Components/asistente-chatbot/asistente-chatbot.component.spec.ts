@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AsistenteQAComponent } from './asistente-qa.component';
+import { AsistenteChatbotComponent } from './asistente-chatbot.component';
 
 describe('AsistenteQAComponent', () => {
-  let component: AsistenteQAComponent;
-  let fixture: ComponentFixture<AsistenteQAComponent>;
+  let component: AsistenteChatbotComponent;
+  let fixture: ComponentFixture<AsistenteChatbotComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AsistenteQAComponent]
-    })
-    .compileComponents();
+      declarations: [AsistenteChatbotComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(AsistenteQAComponent);
+    fixture = TestBed.createComponent(AsistenteChatbotComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
