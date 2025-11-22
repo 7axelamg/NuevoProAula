@@ -5,15 +5,12 @@ import { clients } from '../pages/Quantum Admin/dashboard/views/interfaces/clien
 import { Clients } from '../interface/clients.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClientsService {
+  private apiURL = 'http://localhost:3000/clients';
 
-  private apiURL = 'https://quantumsaas-production.up.railway.app/clients';
-
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   getClients(): Observable<clients[]> {
     return this.http.get<clients[]>(this.apiURL + '/all');
@@ -34,7 +31,7 @@ export class ClientsService {
   findOneByEmail(email: string): Observable<clients> {
     return this.http.get<clients>(`${this.apiURL}/by-email/${email}`);
   }
-  
+
   createClient(data: Clients): Observable<Clients> {
     return this.http.post<Clients>(`${this.apiURL}/create`, data);
   }

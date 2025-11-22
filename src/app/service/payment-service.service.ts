@@ -4,15 +4,12 @@ import { Observable } from 'rxjs';
 import { paymentService } from '../interface/payment.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PaymentServiceService {
+  private baseUrl = 'http://localhost:3000/payment';
 
-  private baseUrl = 'https://quantumsaas-production.up.railway.app/payment'
-
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   findAll(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl + '/all');
@@ -27,14 +24,6 @@ export class PaymentServiceService {
   }
 
   createPayment(data: paymentService): Observable<paymentService> {
-    return this.http.post<paymentService>(this.baseUrl + '/create', data)
+    return this.http.post<paymentService>(this.baseUrl + '/create', data);
   }
-
-  
-
-
-
-
-
-
 }

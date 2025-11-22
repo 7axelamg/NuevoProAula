@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { LoginService } from '../../../service/login.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-login-admin',
   standalone: false,
   templateUrl: './login-admin.component.html',
-  styleUrl: './login-admin.component.css'
+  styleUrl: './login-admin.component.css',
 })
 export class LoginAdminComponent {
   email = '';
@@ -17,10 +16,7 @@ export class LoginAdminComponent {
   showErrorModal = false;
   errorMessage = '';
 
-  constructor(
-    private loginService: LoginService,
-    private route: Router
-  ) {}
+  constructor(private loginService: LoginService, private route: Router) {}
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
@@ -28,7 +24,7 @@ export class LoginAdminComponent {
 
   onLoginClick(): void {
     this.isClicked = true;
-    setTimeout(() => this.isClicked = false, 150);
+    setTimeout(() => (this.isClicked = false), 150);
   }
 
   openErrorModal(message: string) {
@@ -54,7 +50,7 @@ export class LoginAdminComponent {
     }
 
     this.loginService.loginAdmin(this.email, this.password).subscribe({
-      next: res => {
+      next: (res) => {
         console.log('Login exitoso', res);
         localStorage.setItem('token', res.id);
         localStorage.setItem('vip', res.has_vip_service);
@@ -62,26 +58,26 @@ export class LoginAdminComponent {
         setTimeout(() => {
           this.route.navigate(['/inicio']);
         }, 1000);
-        
       },
-      error: err => {
+      error: (err) => {
         console.error('Error en login', err);
         this.handlerError(err.status);
-      }
+      },
     });
   }
 
   handlerError(status: number) {
     switch (status) {
       case 500:
-        this.openErrorModal('Error al conectar con el servidor. Intente nuevamente.');
+        this.openErrorModal(
+          'Error al conectar con el servidor. Intente nuevamente.'
+        );
         break;
       case 404:
-        this.openErrorModal('Credenciales incorrectas o usuario no registrado')
-        break
+        this.openErrorModal('Credenciales incorrectas o usuario no registrado');
+        break;
       default:
         this.openErrorModal('Error desconocido. Intente nuevamente.');
     }
   }
-
 }

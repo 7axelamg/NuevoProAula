@@ -4,15 +4,12 @@ import { reservations } from '../pages/Quantum Admin/dashboard/views/interfaces/
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReservationsService {
+  private baseUrl: string = 'http://localhost:3000/booking';
 
-  private baseUrl: string = 'https://quantumsaas-production.up.railway.app/booking'
-
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   findAll(): Observable<reservations[]> {
     return this.http.get<reservations[]>(this.baseUrl);
@@ -23,27 +20,35 @@ export class ReservationsService {
   }
 
   findByBookingsByClient(id: number): Observable<reservations[]> {
-    return this.http.get<reservations[]>(`${this.baseUrl}/client/${id}`)
+    return this.http.get<reservations[]>(`${this.baseUrl}/client/${id}`);
   }
 
   findByHotel(id: number): Observable<reservations[]> {
-    return this.http.get<reservations[]>(`${this.baseUrl}/hotel/reservation/${id}`);
+    return this.http.get<reservations[]>(
+      `${this.baseUrl}/hotel/reservation/${id}`
+    );
   }
 
   findByStatus(status: string): Observable<reservations[]> {
     return this.http.get<reservations[]>(`${this.baseUrl}/status/${status}`);
   }
 
-  findByStatusByHotel(status: string, hotelId: number): Observable<reservations[]> {
-    return this.http.get<reservations[]>(`${this.baseUrl}/status/${status}/hotel/${hotelId}`);
+  findByStatusByHotel(
+    status: string,
+    hotelId: number
+  ): Observable<reservations[]> {
+    return this.http.get<reservations[]>(
+      `${this.baseUrl}/status/${status}/hotel/${hotelId}`
+    );
   }
 
   findByClient(id: number, client: number): Observable<reservations> {
-    return this.http.get<reservations>(`${this.baseUrl}/reservation/${id}/client/${client}`);
+    return this.http.get<reservations>(
+      `${this.baseUrl}/reservation/${id}/client/${client}`
+    );
   }
 
   createReservation(data: reservations): Observable<reservations> {
     return this.http.post<reservations>(`${this.baseUrl}/`, data);
   }
-
 }

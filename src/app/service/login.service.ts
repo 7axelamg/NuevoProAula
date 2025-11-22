@@ -3,17 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
+  apiUrlAdmin = 'http://localhost:3000/auth/login/user';
+  apiUrlClient = 'http://localhost:3000/auth/login/client';
+  apiUrlSuperAdmin = 'http://localhost:3000/auth/login-super-admin';
 
-  apiUrlAdmin = 'https://quantumsaas-production.up.railway.app/auth/login/user'
-  apiUrlClient = 'https://quantumsaas-production.up.railway.app/auth/login/client'
-  apiUrlSuperAdmin = 'https://quantumsaas-production.up.railway.app/auth/login-super-admin'
-
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Login para administradores

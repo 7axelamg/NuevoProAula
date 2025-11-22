@@ -4,30 +4,26 @@ import { Observable } from 'rxjs';
 import { hotels } from '../interface/hotels.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HotelsService {
+  private apiUrl = 'http://localhost:3000/hotels';
 
-  private apiUrl = 'https://quantumsaas-production.up.railway.app/hotels'
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
-  getHotels():Observable<hotels[]>{
-    return this.http.get<hotels[]>(this.apiUrl + '/all') 
+  getHotels(): Observable<hotels[]> {
+    return this.http.get<hotels[]>(this.apiUrl + '/all');
   }
 
   getHotelById(id: number): Observable<hotels> {
-    return this.http.get<hotels>(this.apiUrl + '/' + id)
+    return this.http.get<hotels>(this.apiUrl + '/' + id);
   }
 
-  updateHotel(hotel: hotels, id: number): Observable<hotels>{
-    return this.http.patch<hotels>(this.apiUrl + '/' + id, hotel)
+  updateHotel(hotel: hotels, id: number): Observable<hotels> {
+    return this.http.patch<hotels>(this.apiUrl + '/' + id, hotel);
   }
 
-  createHotel(hotel: hotels): Observable<hotels>{
+  createHotel(hotel: hotels): Observable<hotels> {
     return this.http.post<hotels>(this.apiUrl + '/create', hotel);
   }
-
 }

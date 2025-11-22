@@ -4,21 +4,18 @@ import { Observable } from 'rxjs';
 import { IUser } from '../interface/users.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsersService {
+  private baseUrl = 'http://localhost:3000/users';
 
-  private baseUrl = 'https://quantumsaas-production.up.railway.app/users'
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
-  getUser(id: number): Observable<IUser>{
+  getUser(id: number): Observable<IUser> {
     return this.http.get<IUser>(`${this.baseUrl}/${id}`);
   }
 
-  createUser(user: IUser): Observable<IUser>{
+  createUser(user: IUser): Observable<IUser> {
     return this.http.post<IUser>(`${this.baseUrl}/create`, user);
   }
 }
