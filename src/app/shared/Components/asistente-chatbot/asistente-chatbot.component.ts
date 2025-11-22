@@ -42,14 +42,11 @@ export class AsistenteChatbotComponent implements OnInit {
     const input = this.userInput.trim();
     if (!input || this.isLoading) return;
 
-
     this.addUserMessage(input);
     this.userInput = '';
 
-
     this.isLoading = true;
     this.addLoadingMessage();
-
 
     this.http
       .post<{ response: string }>(this.apiUrl, { message: input })
