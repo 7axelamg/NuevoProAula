@@ -1,19 +1,19 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { clients } from '../pages/Quantum Admin/dashboard/views/interfaces/clients.interface';
-import { Clients } from '../interface/clients.interface';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { clients } from "../pages/Quantum Admin/dashboard/views/interfaces/clients.interface";
+import { Clients } from "../interface/clients.interface";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ClientsService {
-  private apiURL = 'http://localhost:3000/clients';
+  private apiURL = "http://localhost:3000/api/clients";
 
   constructor(private http: HttpClient) {}
 
   getClients(): Observable<clients[]> {
-    return this.http.get<clients[]>(this.apiURL + '/all');
+    return this.http.get<clients[]>(this.apiURL + "/all");
   }
 
   findOne(id: number): Observable<clients> {

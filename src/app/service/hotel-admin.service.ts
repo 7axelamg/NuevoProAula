@@ -1,13 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { admin_hotels } from '../interface/admin-hotels.interface';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { admin_hotels } from "../interface/admin-hotels.interface";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class HotelAdminService {
-  private baseUrl: string = 'http://localhost:3000/admin-hotels';
+  private baseUrl: string = "http://localhost:3000/api/admin-hotels";
 
   constructor(private http: HttpClient) {}
 

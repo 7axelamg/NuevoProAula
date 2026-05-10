@@ -1,12 +1,12 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class SuperAdminService {
-  apiUrl = 'http://localhost:3000/super-admin';
+  apiUrl = "http://localhost:3000/api/super-admin";
 
   constructor(private http: HttpClient) {}
 

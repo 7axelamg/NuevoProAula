@@ -1,13 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { reservations } from '../pages/Quantum Admin/dashboard/views/interfaces/reservations.interface';
-import { Observable } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { reservations } from "../pages/Quantum Admin/dashboard/views/interfaces/reservations.interface";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ReservationsService {
-  private baseUrl: string = 'http://localhost:3000/booking';
+  private baseUrl: string = "http://localhost:3000/api/booking";
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +25,7 @@ export class ReservationsService {
 
   findByHotel(id: number): Observable<reservations[]> {
     return this.http.get<reservations[]>(
-      `${this.baseUrl}/hotel/reservation/${id}`
+      `${this.baseUrl}/hotel/reservation/${id}`,
     );
   }
 
@@ -35,16 +35,16 @@ export class ReservationsService {
 
   findByStatusByHotel(
     status: string,
-    hotelId: number
+    hotelId: number,
   ): Observable<reservations[]> {
     return this.http.get<reservations[]>(
-      `${this.baseUrl}/status/${status}/hotel/${hotelId}`
+      `${this.baseUrl}/status/${status}/hotel/${hotelId}`,
     );
   }
 
   findByClient(id: number, client: number): Observable<reservations> {
     return this.http.get<reservations>(
-      `${this.baseUrl}/reservation/${id}/client/${client}`
+      `${this.baseUrl}/reservation/${id}/client/${client}`,
     );
   }
 

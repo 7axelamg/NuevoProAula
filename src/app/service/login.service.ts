@@ -1,14 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class LoginService {
-  apiUrlAdmin = 'http://localhost:3000/auth/login/user';
-  apiUrlClient = 'http://localhost:3000/auth/login/client';
-  apiUrlSuperAdmin = 'http://localhost:3000/auth/login-super-admin';
+  apiUrlAdmin = "http://localhost:3000/api/auth/login/user";
+  apiUrlClient = "http://localhost:3000/api/auth/login/client";
+  apiUrlSuperAdmin = "http://localhost:3000/api/auth/login-super-admin";
 
   constructor(private http: HttpClient) {}
 
