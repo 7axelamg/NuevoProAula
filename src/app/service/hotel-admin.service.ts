@@ -12,7 +12,11 @@ export class HotelAdminService {
   constructor(private http: HttpClient) {}
 
   findHotelByAdmin(userId: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/users/${userId}/hotel`);
+    return this.http.get<any>(`${this.baseUrl}/users/${userId}/hotels`);
+  }
+
+  findHotelsByAdmin(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/users/${userId}/hotels`);
   }
 
   createAdmin(data: admin_hotels): Observable<admin_hotels> {

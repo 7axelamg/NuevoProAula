@@ -10,5 +10,6 @@ export interface clients  {
     type_document: 'CC'| 'TI' | 'TE' | 'PP' | 'PPT'|'NIT',
     number_document: string,
     birth_date: Date,
+    hotel_afiliado: { id: number; name: string } | null,
 }
 

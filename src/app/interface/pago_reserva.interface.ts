@@ -1,11 +1,11 @@
 export interface pago_reserva {
-  id: number;
+  id?: number;
   payment_date: Date;
   status: 'pending' | 'canceled' | 'confirmed' | 'refunded';
   amount: number;
   payment_method: 'visa' | 'mastercard' | 'paypal' | 'other';
-  created_at: Date;
-  updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
   reservation?: {
     id?: number;
     check_in?: string;

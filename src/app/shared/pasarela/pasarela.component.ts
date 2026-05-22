@@ -20,12 +20,8 @@ export class PasarelaComponent {
   idUser: number = 0;
   idHotel: number = 0;
   admin: admin_hotels = {
-    user: {
-      id: 0
-    },
-    hotel: {
-      id: 0
-    }
+    userId: 0,
+    hotelId: 0
   };
   
 
@@ -52,12 +48,8 @@ export class PasarelaComponent {
     console.log('Creating admin with IDs:', { userId: this.idUser, hotelId: this.idHotel });
     if (this.idUser && this.idHotel) {
       this.admin = {
-        user: {
-          id: this.idUser
-        },
-        hotel: {
-          id: this.idHotel
-        }
+        userId: this.idUser,
+        hotelId: this.idHotel
       };
       console.log('Admin object:', this.admin);
       

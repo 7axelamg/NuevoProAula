@@ -9,6 +9,32 @@
             <p class="text-sm sm:text-base text-gray-600">Resumen general del sistema</p>
           </div>
 
+          <!-- Grid de Hoteles -->
+          <div class="mb-6 sm:mb-8" *ngIf="hotels.length > 0">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Mis Hoteles</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div *ngFor="let hotel of hotels"
+                   (click)="selectHotel(hotel)"
+                   class="bg-white rounded-xl shadow-sm border-2 cursor-pointer transition-all duration-200 hover:shadow-md"
+                   [class.border-[#011147]]="selectedHotel?.id === hotel.id"
+                   [class.border-gray-200]="selectedHotel?.id !== hotel.id">
+                <div class="p-5">
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="p-2 rounded-lg bg-[#011147]/10 text-[#011147]">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                      </svg>
+                    </div>
+                    <span class="text-xs font-medium px-2 py-1 rounded-full bg-green-100 text-green-800" *ngIf="selectedHotel?.id === hotel.id">Activo</span>
+                  </div>
+                  <h3 class="text-base font-bold text-gray-800 mb-1">{{hotel.name}}</h3>
+                  <p class="text-sm text-gray-600 mb-2">{{hotel.city}}</p>
+                  <p class="text-xs text-gray-500 truncate">{{hotel.address}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
         <!-- Cards de resumen - Diseño responsivo -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
   
@@ -96,7 +122,7 @@
               <div class="flex justify-between">
                 <div>
                   <p class="text-xs uppercase tracking-wider font-medium text-gray-500">Ingresos</p>
-                  <h3 class="text-2xl font-bold text-gray-800 mt-1">{{calculateTotalBalance() | currency }}</h3>
+                  <h3 class="text-2xl font-bold text-gray-800 mt-1">{{calculateTotalConfirmedBalance() | currency }}</h3>
                 </div>
                 <div class="p-3 rounded-lg bg-[#011147]/10 text-[#011147]">
                   <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">

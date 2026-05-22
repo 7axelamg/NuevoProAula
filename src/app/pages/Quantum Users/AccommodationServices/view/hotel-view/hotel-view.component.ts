@@ -1,21 +1,21 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { Clients } from '../../../../../interface/clients.interface';
-import { hotels } from '../../../../../interface/hotels.interface';
-import { rooms } from '../../../../../interface/rooms.interface';
-import { HotelsService } from '../../../../../service/hotels.service';
-import { RoomsService } from '../../../../../service/rooms.service';
-import { ReservationsService } from '../../../../../service/reservations.service';
-import { reservations } from '../../../../../pages/Quantum Admin/dashboard/views/interfaces/reservations.interface';
-import { PagoReservaService } from '../../../../../service/pago-reserva.service';
-import { pago_reserva } from '../../../../../interface/pago_reserva.interface';
+import { Clients } from "../../../../../interface/clients.interface";
+import { hotels } from "../../../../../interface/hotels.interface";
+import { rooms } from "../../../../../interface/rooms.interface";
+import { HotelsService } from "../../../../../service/hotels.service";
+import { RoomsService } from "../../../../../service/rooms.service";
+import { ReservationsService } from "../../../../../service/reservations.service";
+import { reservations } from "../../../../../pages/Quantum Admin/dashboard/views/interfaces/reservations.interface";
+import { PagoReservaService } from "../../../../../service/pago-reserva.service";
+import { pago_reserva } from "../../../../../interface/pago_reserva.interface";
 
 @Component({
-  selector: 'app-hotel-view',
+  selector: "app-hotel-view",
   standalone: false,
-  templateUrl: './hotel-view.component.html',
-  styleUrls: ['./hotel-view.component.css'],
+  templateUrl: "./hotel-view.component.html",
+  styleUrls: ["./hotel-view.component.css"],
 })
 export class HotelViewComponent implements OnInit, OnDestroy {
   hotel: hotels | null = null;
@@ -25,30 +25,30 @@ export class HotelViewComponent implements OnInit, OnDestroy {
   selectedRoomId: number | null = null;
   showConfirmationModal: boolean = false;
   showPaymentModal: boolean = false;
-  paymentMethod: string = 'credit';
-  cardNumber: string = '';
-  cardName: string = '';
-  cardExpiry: string = '';
-  cardCvv: string = '';
-  checkInDate: string = '';
-  checkOutDate: string = '';
+  paymentMethod: string = "credit";
+  cardNumber: string = "";
+  cardName: string = "";
+  cardExpiry: string = "";
+  cardCvv: string = "";
+  checkInDate: string = "";
+  checkOutDate: string = "";
   showPaymentSuccessModal: boolean = false;
   reservationNumber: number | null = null;
   totalAmount: number = 0;
-  confirmationModalState: 'closed' | 'opening' | 'open' | 'closing' = 'closed';
-  paymentModalState: 'closed' | 'opening' | 'open' | 'closing' = 'closed';
-  successModalState: 'closed' | 'opening' | 'open' | 'closing' = 'closed';
+  confirmationModalState: "closed" | "opening" | "open" | "closing" = "closed";
+  paymentModalState: "closed" | "opening" | "open" | "closing" = "closed";
+  successModalState: "closed" | "opening" | "open" | "closing" = "closed";
   isProcessingPayment: boolean = false;
   private roomsInterval: any;
 
   userData: Clients = {
-    name: '',
-    last_name: '',
-    email: '',
-    phone: '',
-    type_document: 'CC',
-    number_document: '',
-    birth_date: new Date()
+    name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    type_document: "CC",
+    number_document: "",
+    birth_date: new Date(),
   };
 
   constructor(
@@ -56,19 +56,19 @@ export class HotelViewComponent implements OnInit, OnDestroy {
     private roomsService: RoomsService,
     private reservationsService: ReservationsService,
     private paymentBooking: PagoReservaService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    const hotelId = localStorage.getItem('selectedHotelId');
-    this.checkInDate = localStorage.getItem('checkInDate') || '';
-    this.checkOutDate = localStorage.getItem('checkOutDate') || '';
+    const hotelId = localStorage.getItem("selectedHotelId");
+    this.checkInDate = localStorage.getItem("checkInDate") || "";
+    this.checkOutDate = localStorage.getItem("checkOutDate") || "";
 
     if (hotelId) {
       this.loadHotelDetails(parseInt(hotelId));
       this.loadRooms(parseInt(hotelId));
       this.startRoomsInterval(parseInt(hotelId));
     } else {
-      this.error = 'No se encontró el hotel seleccionado';
+      this.error = "No se encontró el hotel seleccionado";
       this.loading = false;
     }
   }
@@ -83,7 +83,7 @@ export class HotelViewComponent implements OnInit, OnDestroy {
     if (this.roomsInterval) {
       clearInterval(this.roomsInterval);
     }
-    
+
     this.roomsInterval = setInterval(() => {
       this.loadRooms(hotelId);
     }, 20000);
@@ -96,10 +96,10 @@ export class HotelViewComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Error al cargar los detalles del hotel';
+        this.error = "Error al cargar los detalles del hotel";
         this.loading = false;
-        console.error('Error:', error);
-      }
+        console.error("Error:", error);
+      },
     });
   }
 
@@ -111,118 +111,100 @@ export class HotelViewComponent implements OnInit, OnDestroy {
         }
       },
       error: (error) => {
-        console.error('Error al cargar las habitaciones:', error);
-      }
+        console.error("Error al cargar las habitaciones:", error);
+      },
     });
   }
 
   private createReserve(): void {
     if (!this.selectedRoomId || !this.checkInDate || !this.checkOutDate) {
-      console.error('Faltan datos necesarios para la reserva');
+      console.error("Faltan datos necesarios para la reserva");
       return;
     }
 
     // Obtener el ID del usuario del localStorage
-    const userId = localStorage.getItem('id');
+    const userId = localStorage.getItem("id");
     if (!userId) {
-      console.error('No se encontró el ID del usuario');
+      console.error("No se encontró el ID del usuario");
       return;
     }
 
-    // Crear el objeto de reserva
-    const reservationData: reservations = {
-      id: 0, // El backend asignará el ID
-      check_in: new Date(this.checkInDate),
-      check_out: new Date(this.checkOutDate),
-      status: 'confirmed',
-      room: {
-        id: this.selectedRoomId
-      },
-      client: {
-        id: parseInt(userId)
-      },
-      created_at: new Date(),
-      updated_at: new Date()
+const reservationData = {
+      check_in: this.checkInDate,
+      check_out: this.checkOutDate,
+      roomId: this.selectedRoomId,
+      clientId: parseInt(userId),
+      status: 'confirmed' as const,
     };
 
     // Crear la reserva
-    this.reservationsService.createReservation(reservationData).subscribe({
+    this.reservationsService.createReservation(reservationData as any).subscribe({
       next: (response) => {
-        console.log('Reserva creada exitosamente:', response);
+        console.log("Reserva creada exitosamente:", response);
         if (response.id) {
           this.createPayment(response.id);
         } else {
-          console.error('No se recibió ID de la reserva');
+          console.error("No se recibió ID de la reserva");
         }
       },
       error: (error) => {
-        console.error('Error al crear la reserva:', error);
-      }
+        console.error("Error al crear la reserva:", error);
+      },
     });
   }
 
   private createPayment(reservationId: number): void {
-    const userId = localStorage.getItem('id');
+    const userId = localStorage.getItem("id");
     if (!userId || !this.selectedRoomId) {
-      console.error('Faltan datos necesarios para el pago');
+      console.error("Faltan datos necesarios para el pago");
       this.isProcessingPayment = false;
       return;
     }
 
     // Obtener el precio de la habitación seleccionada
-    const selectedRoom = this.rooms.find(room => room.id === this.selectedRoomId);
+    const selectedRoom = this.rooms.find(
+      (room) => room.id === this.selectedRoomId,
+    );
     if (!selectedRoom) {
-      console.error('No se encontró la habitación seleccionada');
+      console.error("No se encontró la habitación seleccionada");
       this.isProcessingPayment = false;
       return;
     }
 
-    // Crear el objeto de pago
-    const paymentData: pago_reserva = {
-      id: 0,
+const paymentData = {
       payment_date: new Date(),
-      status: 'confirmed',
-      amount: selectedRoom.price ?? 0,
-      payment_method: this.paymentMethod === 'credit' ? 'visa' : 'mastercard',
-      created_at: new Date(),
-      updated_at: new Date(),
-      reservation: {
-        id: reservationId,
-      },
-      client: {
-        id: parseInt(userId),
-      },
-      room: {
-        id: this.selectedRoomId,
-      }
+      status: 'confirmed' as const,
+      amount: Number(selectedRoom.price) || 0,
+      payment_method: (this.paymentMethod === 'credit' ? 'visa' : 'mastercard') as 'visa' | 'mastercard',
+      reservationId: reservationId,
     };
 
     // Crear el pago
     this.paymentBooking.create(paymentData).subscribe({
       next: (response) => {
-        console.log('Pago procesado exitosamente:', response);
+        console.log("Pago procesado exitosamente:", response);
         this.isProcessingPayment = false;
-        this.paymentModalState = 'closing';
+        this.paymentModalState = "closing";
         setTimeout(() => {
-          this.paymentModalState = 'closed';
-          this.reservationNumber = response.id;
+          this.paymentModalState = "closed";
+          this.reservationNumber = response.id ?? null;
           this.totalAmount = response.amount;
-          this.successModalState = 'opening';
+          this.successModalState = "opening";
           setTimeout(() => {
-            this.successModalState = 'open';
+            this.successModalState = "open";
           }, 50);
         }, 300);
       },
       error: (error) => {
-        console.error('Error al procesar el pago:', error);
+        console.error("Error al procesar el pago:", error);
         this.isProcessingPayment = false;
-      }
+      },
     });
   }
 
   processPayment(): void {
     if (!this.validatePaymentData()) {
-      console.error('Por favor complete todos los campos del pago');
+      console.error("Por favor complete todos los campos del pago");
       return;
     }
     this.isProcessingPayment = true;
@@ -241,60 +223,60 @@ export class HotelViewComponent implements OnInit, OnDestroy {
 
   reserveRoom(roomId: number): void {
     this.selectedRoomId = roomId;
-    this.confirmationModalState = 'opening';
+    this.confirmationModalState = "opening";
     setTimeout(() => {
-      this.confirmationModalState = 'open';
+      this.confirmationModalState = "open";
     }, 50);
   }
 
   confirmReservation(): void {
-    this.confirmationModalState = 'closing';
+    this.confirmationModalState = "closing";
     setTimeout(() => {
-      this.confirmationModalState = 'closed';
-      this.paymentModalState = 'opening';
+      this.confirmationModalState = "closed";
+      this.paymentModalState = "opening";
       setTimeout(() => {
-        this.paymentModalState = 'open';
+        this.paymentModalState = "open";
       }, 50);
     }, 300);
   }
 
   cancelReservation(): void {
-    this.confirmationModalState = 'closing';
+    this.confirmationModalState = "closing";
     setTimeout(() => {
-      this.confirmationModalState = 'closed';
+      this.confirmationModalState = "closed";
       this.selectedRoomId = null;
     }, 300);
   }
 
   cancelPayment(): void {
-    this.paymentModalState = 'closing';
+    this.paymentModalState = "closing";
     setTimeout(() => {
-      this.paymentModalState = 'closed';
+      this.paymentModalState = "closed";
       this.selectedRoomId = null;
     }, 300);
   }
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'free':
-        return 'bg-green-100 text-green-800';
-      case 'busy':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'booked':
-        return 'bg-red-100 text-red-800';
+      case "free":
+        return "bg-green-100 text-green-800";
+      case "busy":
+        return "bg-yellow-100 text-yellow-800";
+      case "booked":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   }
 
   getStatusText(status: string): string {
     switch (status) {
-      case 'free':
-        return 'Disponible';
-      case 'busy':
-        return 'Ocupada';
-      case 'booked':
-        return 'Reservada';
+      case "free":
+        return "Disponible";
+      case "busy":
+        return "Ocupada";
+      case "booked":
+        return "Reservada";
       default:
         return status;
     }
@@ -309,10 +291,10 @@ export class HotelViewComponent implements OnInit, OnDestroy {
       this.userData.number_document,
       this.userData.birth_date,
       this.userData.email,
-      this.userData.phone
+      this.userData.phone,
     ];
-    
-    if (requiredFields.some(field => !field)) {
+
+    if (requiredFields.some((field) => !field)) {
       return false;
     }
 
@@ -323,7 +305,7 @@ export class HotelViewComponent implements OnInit, OnDestroy {
     }
 
     // Validación de teléfono (mínimo 7 dígitos)
-    if (this.userData.phone.replace(/\D/g, '').length < 7) {
+    if (this.userData.phone.replace(/\D/g, "").length < 7) {
       return false;
     }
 
@@ -331,30 +313,32 @@ export class HotelViewComponent implements OnInit, OnDestroy {
   }
 
   formatPrice(price: number | undefined): string {
-    if (!price) return '$0';
-    
-    return new Intl.NumberFormat('es-CO', {
-      style: 'currency',
-      currency: 'COP',
-      minimumFractionDigits: 0
+    if (!price) return "$0";
+
+    return new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+      minimumFractionDigits: 0,
     }).format(price);
   }
 
   closePaymentSuccess(): void {
-    this.successModalState = 'closing';
+    this.successModalState = "closing";
     setTimeout(() => {
-      this.successModalState = 'closed';
+      this.successModalState = "closed";
     }, 300);
   }
 
   handleImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     // Si el alt contiene "Habitación", usamos la imagen de habitación
-    if (imgElement.alt.toLowerCase().includes('habitación')) {
-      imgElement.src = 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80';
+    if (imgElement.alt.toLowerCase().includes("habitación")) {
+      imgElement.src =
+        "https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80";
     } else {
       // Para cualquier otra imagen (hotel), usamos la imagen de hotel
-      imgElement.src = 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80';
+      imgElement.src =
+        "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80";
     }
   }
 }
